@@ -69,6 +69,13 @@ const waCommand = require('./plugins/wa');
 const pokedexCommand = require('./plugins/pokedex');
 const imdbCommand = require('./plugins/imdb');
 const itunesCommand = require('./plugins/itunes');
+
+const bingCommand = require('./plugins/bing');
+const elementCommand = require('./plugins/element');
+const urbanCommand = require('./plugins/define');
+const base64Command = require('./plugins/base64');
+const apkCommand = require('./plugins/an1');
+const tinyurlCommand = require('./plugins/tiny');
 const shazamCommand = require('./plugins/shazam');
 const deleteCommand = require('./plugins/delete');
 const { handleAntilinkCommand, handleLinkDetection } = require('./plugins/antilink');
@@ -1144,7 +1151,24 @@ async function handleMessages(sock, messageUpdate, printLog) {
             case userMessage.startsWith('.shazam') || userMessage.startsWith('.quemusica') || userMessage.startsWith('.whatmusic'):
                  await shazamCommand(sock, chatId, message);
                  break;
-            
+            case userMessage.startsWith('.bing') || userMessage.startsWith('.bsearch'):
+                 await bingCommand(sock, chatId, message, rawText.slice(userMessage.startsWith('.bing') ? 5 : 8).trim());
+                 break;
+            case userMessage.startsWith('.element') || userMessage.startsWith('.ele'):
+                 await elementCommand(sock, chatId, message, rawText.slice(userMessage.startsWith('.element') ? 8 : 4).trim());
+                 break;
+            case userMessage.startsWith('.define'):
+                 await urbanCommand(sock, chatId, message, rawText.slice(7).trim());
+                 break;
+            case userMessage.startsWith('.base64'):
+                 await base64Command(sock, chatId, message, rawText.slice(8).trim());
+                 break;
+            case userMessage.startsWith('.an1') || userMessage.startsWith('.android1'):
+                 await apkCommand(sock, chatId, message, rawText.slice(userMessage.startsWith('.android') ? 4 : 9).trim());
+                 break;
+            case userMessage.startsWith('.tiny') || userMessage.startsWith('.short'):
+                 await tinyurlCommand(sock, chatId, message, rawText.slice(5).trim());
+                 break;
             case userMessage === '.crop':
                 await stickercropCommand(sock, chatId, message);
                 commandExecuted = true;

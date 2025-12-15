@@ -42,6 +42,12 @@ async function helpCommand(sock, chatId, message) {
 ◈├¤⁠  *.fancytext*
 ◈├¤⁠  *.wattpad*
 ◈├¤⁠  *.readmore*
+◈├¤⁠  *.tiny*
+◈├¤⁠  *.bing*
+◈├¤⁠  *.element*
+◈├¤⁠  *.an1apk*
+◈├¤⁠  *.define*
+◈├¤⁠  *.base64*
 ◈├¤⁠  *.walink*
 ◈├¤⁠  *.pokedex*
 ◈╰─┬─★─☆──♪♪─❍

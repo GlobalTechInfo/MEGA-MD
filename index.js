@@ -37,7 +37,7 @@ const { join } = require('path')
 
 const store = require('./lib/lightweight_store')
 const SaveCreds = require('./lib/session');
-
+const { app, server, PORT } = require('./lib/server');
 store.readFromFile()
 const settings = require('./settings')
 setInterval(() => store.writeToFile(), settings.storeWriteInterval || 10000)
@@ -182,6 +182,11 @@ async function initializeSession() {
         return false
     }
 }
+server.listen(PORT, () => {
+
+	console.log(chalk.yellow('App listened on port', PORT));
+
+});
 
 async function startQasimDev() {
     try {
@@ -533,6 +538,17 @@ process.on('uncaughtException', (err) => {
 
 process.on('unhandledRejection', (err) => {
     console.error('Unhandled Rejection:', err)
+})
+server.on('error', (error) => {
+
+	if (error.code === 'EADDRINUSE') {
+
+		console.log(`Address localhost:${PORT} in use. Please retry when the port is available!`);
+
+		server.close();
+
+	} else console.error('Server error:', error);
+
 })
 
 let file = require.resolve(__filename)
