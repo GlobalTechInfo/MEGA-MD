@@ -19,7 +19,7 @@ module.exports = {
   aliases: ['areact'],
   category: 'owner',
   description: 'Toggle auto-react to messages',
-  usage: '.autoreact on/off',
+  usage: '.autoreact on',
   ownerOnly: true,
   
   async handler(sock, message, args, context) {
@@ -27,7 +27,7 @@ module.exports = {
     
     if (!args[0] || !['on', 'off'].includes(args[0])) {
       await sock.sendMessage(chatId, {
-        text: '*Usage:*\n.autoreact on/off',
+        text: '*Usage:*\n.autoreact on',
         ...channelInfo
       }, { quoted: message });
       return;
@@ -36,7 +36,7 @@ module.exports = {
     AUTO_REACT_MESSAGES = args[0] === 'on';
 
     await sock.sendMessage(chatId, {
-      text: AUTO_REACT_MESSAGES ? '*✅ Auto-react enabled*' : '*❌ Auto-react disabled*',
+      text: AUTO_REACT_MESSAGES ? '*✅ Auto-react enabled*' : '*Auto-react on*',
       ...channelInfo
     }, { quoted: message });
 
