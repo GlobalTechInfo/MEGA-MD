@@ -1,7 +1,8 @@
 {
   "name": "mega",
   "version": "5.2.0",
-  "description": "WhatsApp Bot",
+  "description": "High performance multi-device whatsapp bot",
+  "type": "commonjs",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -22,16 +23,8 @@
     "install:force": "npm install --force",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "keywords": [
-    "termux-whatsapp-bot",
-    "whatsapp-bot",
-    "whatsapp-api",
-    "baileys-bot",
-    "whatsApp",
-    "mega-bot",
-    "mega-md",
-    "multi-device",
-    "mega-ai"
+  "keywords": [ "termux-whatsapp-bot", "whatsapp-bot", "whatsapp-api",
+    "baileys-bot", "whatsApp", "mega-bot", "mega-md", "multi-device", "mega-ai"
   ],
   "homepage": "https://github.com/GlobalTechInfo/MEGA-MD",
   "repository": {
@@ -48,13 +41,12 @@
     "@hapi/boom": "^10.0.1",
     "@whiskeysockets/baileys": "^7.0.0-rc.9",
     "acrcloud": "^1.4.0",
-    "api-qasim": "^3.2.10",
+    "api-qasim": "^4.0.1",
     "awesome-phonenumber": "^5.9.0",
     "axios": "^1.8.4",
     "better-sqlite3": "^12.5.0",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
-    "discard-api": "^3.0.0",
     "dotenv": "^16.4.5",
     "express": "^4.22.1",
     "file-type": "^16.5.4",
