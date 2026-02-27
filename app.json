@@ -7,6 +7,11 @@
   "repository": "https://github.com/GlobalTechInfo/MEGA-MD",
   "stack": "container",
   "env": {
+    "SESSION_ID": {
+      "description": "Put your session id",
+      "required": true,
+      "value": ""
+    },
     "MONGO_URL": {
       "description": "Put if you have mongodb database url",
       "required": false,
@@ -22,22 +27,42 @@
       "required": false,
       "value": ""
     },
-     "HKEY": {
-      "description": "Put your Heroku api key Here , Get one from here https://dashboard.heroku.com/account",
-      "required": true,
-      "value": ""
+     "PREFIXES=": {
+      "description": "One or more prefixes splited by comma",
+      "required": false,
+      "value": "."
     },
-     "HAPP": {
-      "description": "Put the Heroku app name, same as above entered",
-      "required": true,
-      "value": ""
+     "PACKNAME": {
+      "description": "Your sticker pack name",
+      "required": false,
+      "value": "Mega-Bot"
     },
-    "SESSION_ID": {
-      "description": "Put your session id",
-      "required": true,
-      "value": ""
+    "BOT_NAME": {
+      "description": "Your bot name",
+      "required": false,
+      "value": "MEGA-MD"
     },
-     "REMOVEBG_KEY": {
+    "OWNER_NUMBER": {
+      "description": "Your WhatsApp number",
+      "required": false,
+      "value": "923000000000"
+    },
+    "COMMAND_MODE": {
+      "description": "Bot mode",
+      "required": false,
+      "value": "public"
+    },
+    "BOT_OWNER": {
+      "description": "Owner name",
+      "required": false,
+      "value": "GlobalTech"
+    },
+    "TIMEZONE": {
+      "description": "Your time zone",
+      "required": false,
+      "value": "Asia/Karachi"
+    },
+    "REMOVEBG_KEY": {
       "description": "Put your Remove background api key",
       "required": false,
       "value": ""
