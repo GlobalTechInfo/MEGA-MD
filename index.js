@@ -591,6 +591,18 @@ async function main() {
 
 main();
 
+const sessionDir = path.join(process.cwd(), 'session');
+
+setInterval(() => {
+  if (!fs.existsSync(sessionDir)) return;
+  fs.readdir(sessionDir, (err, files) => {
+    if (err) return;
+    for (const file of files) {
+      if (file === 'creds.json') continue;
+      fs.unlink(path.join(sessionDir, file), () => {});
+    }
+  });
+}, 3 * 60 * 1000);
 
 const customTemp = path.join(process.cwd(), 'temp');
 if (!fs.existsSync(customTemp)) fs.mkdirSync(customTemp, { recursive: true });

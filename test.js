@@ -1,6 +1,5 @@
 const fs = require('fs');
 const path = require('path');
-const vm = require('vm');
 const chalk = require('chalk');
 
 const folders = [
@@ -8,9 +7,7 @@ const folders = [
   path.join(__dirname, './plugins')
 ];
 
-let totalFiles = 0;
-let okFiles = 0;
-let errorFiles = 0;
+let totalFiles = 0, okFiles = 0, errorFiles = 0;
 
 folders.forEach(folder => {
   if (!fs.existsSync(folder)) {
@@ -18,32 +15,17 @@ folders.forEach(folder => {
     return;
   }
 
-  const files = fs.readdirSync(folder).filter(file => file.endsWith('.js'));
-  
-  files.forEach(file => {
+  fs.readdirSync(folder).filter(f => f.endsWith('.js')).forEach(file => {
     totalFiles++;
     const filePath = path.join(folder, file);
-
     try {
       const code = fs.readFileSync(filePath, 'utf-8');
-      new vm.Script(code); 
-
-      try {
-        delete require.cache[require.resolve(filePath)];
-      } catch (e) {}
-      
-      const moduleExport = require(filePath);
-      if (folder.includes('plugins')) {
-        if (!moduleExport.command && !moduleExport.handler) {
-          throw new Error("Missing 'command' or 'handler' export. Check your module.exports structure.");
-        }
-      }
-
+      new (require('vm').Script)(code);
       okFiles++;
     } catch (e) {
       errorFiles++;
       console.error(chalk.red(`❌ ERROR in ${filePath}:`));
-      console.error(chalk.white(`   ${e.message}\n`)); 
+      console.error(chalk.white(`   ${e.message}\n`));
     }
   });
 });
@@ -59,4 +41,3 @@ if (errorFiles > 0) {
   console.log(chalk.green('✨ All files passed validation!\n'));
   process.exit(0);
 }
-

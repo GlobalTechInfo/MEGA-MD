@@ -1,8 +1,5 @@
 const axios = require('axios');
-const { Sticker, StickerTypes } = require('wa-sticker-formatter');
-const fs = require('fs');
-const os = require('os');
-const path = require('path');
+const { Sticker, StickerTypes } = require('stickers-formatter');
 
 module.exports = {
   command: 'quoted',
@@ -13,181 +10,48 @@ module.exports = {
 
   async handler(sock, message, args, context = {}) {
     const chatId = context.chatId || message.key.remoteJid;
+    const ctx = message.message?.extendedTextMessage?.contextInfo;
     let text = args.join(' ').trim();
 
+    if (!text) {
+      const q = ctx?.quotedMessage;
+      if (!q) return sock.sendMessage(chatId, { text: '📝 Please provide text or reply to a message.\n\nUsage: .quote <text>' }, { quoted: message });
+      text = q.conversation || q.extendedTextMessage?.text || q.imageMessage?.caption || q.videoMessage?.caption || 'Media message';
+    }
+
+    const who = ctx?.participant || ctx?.mentionedJid?.[0] || message.key.participant || message.key.remoteJid;
+
+    const [userPfp, contactInfo] = await Promise.allSettled([
+      sock.profilePictureUrl(who, 'image'),
+      sock.onWhatsApp(who)
+    ]);
+
+    const pfp = userPfp.status === 'fulfilled' ? userPfp.value : 'https://i.ibb.co/9HY4wjz/a4c0b1af253197d4837ff6760d5b81c0.jpg';
+    const userName = contactInfo.value?.[0]?.notify || who.split('@')[0];
+
     try {
-      // Check if no text and no quoted message
-      if (!text && !message.message?.extendedTextMessage?.contextInfo?.quotedMessage) {
-        return await sock.sendMessage(chatId, { 
-          text: '📝 Please provide some text or reply to a message to create a quote.\n\nUsage: .quote <text>' 
-        }, { quoted: message });
-      }
+      const res = await axios.post('https://bot.lyo.su/quote/generate', {
+        type: 'quote', format: 'png', backgroundColor: '#FFFFFF', width: 1800, height: 200, scale: 2,
+        messages: [{ entities: [], avatar: true, from: { id: 1, name: userName, photo: { url: pfp } }, text, replyMessage: {} }]
+      }, { headers: { 'Content-Type': 'application/json' }, timeout: 30000 });
 
-      // Get text from quoted message if available
-      if (!text && message.message?.extendedTextMessage?.contextInfo?.quotedMessage) {
-        const quotedMsg = message.message.extendedTextMessage.contextInfo.quotedMessage;
-        text = quotedMsg.conversation || 
-               quotedMsg.extendedTextMessage?.text || 
-               quotedMsg.imageMessage?.caption || 
-               quotedMsg.videoMessage?.caption || 
-               'Media message';
-      }
+      if (!res.data?.result?.image) throw new Error('Invalid API response');
 
-      // Determine who to get profile picture from
-      let who;
-      if (message.message?.extendedTextMessage?.contextInfo?.participant) {
-        // Quoted message sender
-        who = message.message.extendedTextMessage.contextInfo.participant;
-      } else if (message.message?.extendedTextMessage?.contextInfo?.mentionedJid?.[0]) {
-        // Mentioned user
-        who = message.message.extendedTextMessage.contextInfo.mentionedJid[0];
-      } else {
-        // Message sender
-        who = message.key.participant || message.key.remoteJid;
-      }
-
-      // React with waiting emoji
-      await sock.sendMessage(chatId, {
-        react: {
-          text: '⏳',
-          key: message.key
-        }
-      });
-
-      // Get profile picture
-      let userPfp;
-      try {
-        userPfp = await sock.profilePictureUrl(who, 'image');
-      } catch (err) {
-        userPfp = 'https://i.ibb.co/9HY4wjz/a4c0b1af253197d4837ff6760d5b81c0.jpg';
-      }
-
-      // Get user name (try to extract from contact or use phone number)
-      let userName = who.split('@')[0];
-      try {
-        const contactInfo = await sock.onWhatsApp(who);
-        if (contactInfo?.[0]?.notify) {
-          userName = contactInfo[0].notify;
-        }
-      } catch (err) {
-        // Use default name
-      }
-
-      // Prepare quote JSON
-      const quoteJson = {
-        type: 'quote',
-        format: 'png',
-        backgroundColor: '#FFFFFF',
-        width: 1800,
-        height: 200,
-        scale: 2,
-        messages: [
-          {
-            entities: [],
-            avatar: true,
-            from: {
-              id: 1,
-              name: userName,
-              photo: {
-                url: userPfp,
-              },
-            },
-            text: text,
-            replyMessage: {},
-          },
-        ],
-      };
-
-      // Fetch quote image from API
-      const res = await axios.post('https://bot.lyo.su/quote/generate', quoteJson, {
-        headers: { 'Content-Type': 'application/json' },
-        timeout: 30000
-      });
-
-      if (!res.data?.result?.image) {
-        throw new Error('Invalid API response');
-      }
-
-      // Convert base64 to buffer
       const bufferImage = Buffer.from(res.data.result.image, 'base64');
 
-      // Save to temporary file
-      const tempImagePath = path.join(os.tmpdir(), `quote_${Date.now()}.png`);
-      fs.writeFileSync(tempImagePath, bufferImage);
-
-      // Create sticker
-      const sticker = new Sticker(tempImagePath, {
-        pack: 'WhatsApp Bot',
-        author: userName,
-        type: StickerTypes.FULL,
-        categories: ['🤩', '🎉'],
-        id: Math.floor(100000 + Math.random() * 900000).toString(),
-        quality: 100,
-        background: '#00000000',
-      });
-
-      // Send sticker
       try {
-        const stickerBuffer = await sticker.toBuffer();
-        await sock.sendMessage(chatId, {
-          sticker: stickerBuffer
-        }, { quoted: message });
-
-        // React with success emoji
-        await sock.sendMessage(chatId, {
-          react: {
-            text: '✅',
-            key: message.key
-          }
-        });
-      } catch (stickerError) {
-        console.error('Error sending sticker:', stickerError);
-        
-        // Fallback: send as image
-        await sock.sendMessage(chatId, {
-          image: bufferImage,
-          caption: '📝 Quote image (sticker conversion failed)'
-        }, { quoted: message });
-
-        await sock.sendMessage(chatId, {
-          react: {
-            text: '⚠️',
-            key: message.key
-          }
-        });
+        const stickerBuffer = await new Sticker(bufferImage, {
+          pack: 'MEGA-MD', author: userName, type: StickerTypes.FULL,
+          categories: ['🤩', '🎉'], quality: 100, background: '#00000000'
+        }).toBuffer();
+        await sock.sendMessage(chatId, { sticker: stickerBuffer }, { quoted: message });
+      } catch {
+        await sock.sendMessage(chatId, { image: bufferImage, caption: '📝 Quote image (sticker conversion failed)' }, { quoted: message });
       }
-
-      // Clean up temporary file
-      try {
-        fs.unlinkSync(tempImagePath);
-      } catch (err) {
-        console.error('Error cleaning up temp file:', err);
-      }
-
     } catch (err) {
       console.error('Quote plugin error:', err);
-
-      // React with error emoji
-      await sock.sendMessage(chatId, {
-        react: {
-          text: '❌',
-          key: message.key
-        }
-      });
-
-      let errorMessage = '❌ Failed to generate quote. ';
-      
-      if (err.message.includes('timeout')) {
-        errorMessage += 'Request timed out. Please try again.';
-      } else if (err.message.includes('Invalid API response')) {
-        errorMessage += 'API returned invalid data.';
-      } else {
-        errorMessage += 'Please try again later.';
-      }
-
-      await sock.sendMessage(chatId, { 
-        text: errorMessage 
-      }, { quoted: message });
+      const msg = err.message.includes('timeout') ? 'Request timed out.' : err.message.includes('Invalid API') ? 'API returned invalid data.' : 'Please try again later.';
+      await sock.sendMessage(chatId, { text: `❌ Failed to generate quote. ${msg}` }, { quoted: message });
     }
   }
 };
