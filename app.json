@@ -27,7 +27,7 @@
       "required": false,
       "value": ""
     },
-     "PREFIXES=": {
+     "PREFIXES": {
       "description": "One or more prefixes splited by comma",
       "required": false,
       "value": "."
