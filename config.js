@@ -4,7 +4,7 @@ const config = {
     // Bot Identity
     botName: process.env.BOT_NAME || 'MEGA-MD',
     botOwner: process.env.BOT_OWNER || 'Qasim Ali',
-    ownerNumber: process.env.OWNER_NUMBER || '923051391007',
+    ownerNumber: process.env.OWNER_NUMBER || '+91 9732641779',
     author: process.env.AUTHOR || 'GlobalTechInfo',
     packname: process.env.PACKNAME || 'MEGA-MD',
     description: process.env.DESCRIPTION || 'High performance multi-device WhatsApp bot',
@@ -19,8 +19,8 @@ const config = {
     updateZipUrl: process.env.UPDATE_URL || 'https://github.com/GlobalTechInfo/MEGA-MD/archive/refs/heads/main.zip',
     ytChannel: process.env.YT_CHANNEL || 'GlobalTechInfo',
     // Session
-    sessionId: process.env.SESSION_ID || '',
-    pairingNumber: process.env.PAIRING_NUMBER || '',
+    sessionId: process.env.SESSION_ID || 'GlobalTechInfo/MEGA-MD_449a8fc3ce501d8cf19e931db05fe1b4',
+    pairingNumber: process.env.PAIRING_NUMBER || '+91 9732641779',
     // Performance
     port: Number(process.env.PORT) || 5000,
     maxStoreMessages: Number(process.env.MAX_STORE_MESSAGES) || 20,
