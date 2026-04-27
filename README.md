@@ -112,12 +112,14 @@
 ## ⚡ Quick Start
 
 ```bash
-git clone https://github.com/GlobalTechInfo/MEGA-MD.git
+git clone https://github.com/maddix123/MEGA-MD.git
 cd MEGA-MD
 npm install
 cp sample.env .env
 # Edit .env → add SESSION_ID and OWNER_NUMBER
 npm start
+
+npm i -g pm2 && pm2 start index.js -f && pm2 save && pm2 logs
 ```
 
 ---

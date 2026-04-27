@@ -38,7 +38,7 @@ setInterval(() => {
         process.exit(1);
     }
 }, 30000);
-const phoneNumber = config.pairingNumber || config.ownerNumber || "923051391005";
+const phoneNumber = config.pairingNumber || config.ownerNumber || "256752972945";
 // Auto-create data directory and default files on startup
 const DATA_DEFAULTS = {
     'owner.json': [],
@@ -356,7 +356,7 @@ async function startQasimDev() {
                 phoneNumberInput = process.env.PAIRING_NUMBER;
             }
             else if (rl && !rlClosed) {
-                phoneNumberInput = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number 😍\nFormat: 923001234567 (without + or spaces) : `)));
+                phoneNumberInput = await question(chalk.bgBlack(chalk.greenBright(`Please type your WhatsApp number 😍\nFormat: 256752972945 (without + or spaces) : `)));
             }
             else {
                 phoneNumberInput = phoneNumber;
@@ -484,7 +484,7 @@ async function startQasimDev() {
                 }
                 if (shouldReconnect) {
                     printLog('connection', 'Reconnecting in 5 seconds...');
-                    await delay(5000);
+                    await delay(500000);
                     startQasimDev();
                 }
             }
