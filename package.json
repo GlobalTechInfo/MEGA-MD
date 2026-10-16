@@ -72,7 +72,7 @@
     "qrcode": "^1.5.4",
     "ruhend-scraper": "*",
     "sharp": "^0.35.3",
-    "simple-git": "^3.30.0",
+    "simple-git": "^4.0.2",
     "stickers-formatter": "^1.0.0",
     "syntax-error": "^1.4.0",
     "yt-search": "^2.12.1"
@@ -83,7 +83,10 @@
     "vitest": "^4.0.18"
   },
   "overrides": {
+    "braces": "^3.0.3",
+    "chokidar": "^4.0.3",
     "minimatch": "^10.2.1",
+    "nodemon": "$nodemon",
     "yargs-parser": "^21.1.1"
   }
 }
