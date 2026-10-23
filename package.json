@@ -88,5 +88,11 @@
     "minimatch": "^10.2.1",
     "nodemon": "$nodemon",
     "yargs-parser": "^21.1.1"
+  },
+  "allowScripts": {
+    "@whiskeysockets/baileys@6.7.24": true,
+    "better-sqlite3@12.6.2": true,
+    "protobufjs@7.6.6": true,
+    "sharp@0.35.5": true
   }
 }
