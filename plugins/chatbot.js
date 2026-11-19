@@ -272,8 +272,8 @@ export default {
     category: 'admin',
     description: 'Enable or disable AI chatbot for the group',
     usage: '.chatbot <on|off>',
-    groupOnly: true,
-    adminOnly: true,
+    groupOnly: false,
+    adminOnly: false,
     async handler(sock, message, args, context) {
         const chatId = context.chatId || message.key.remoteJid;
         const match = args.join(' ').toLowerCase();
