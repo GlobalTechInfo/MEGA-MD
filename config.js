@@ -5,18 +5,18 @@ const config = {
     botName: process.env.BOT_NAME || 'WESLEY-AI',
     botOwner: process.env.BOT_OWNER || 'Wesley',
     ownerNumber: process.env.OWNER_NUMBER || '254738550932',
-    author: process.env.AUTHOR || 'GlobalTechInfo',
-    packname: process.env.PACKNAME || 'MEGA-MD',
+    author: process.env.AUTHOR || 'Wesley',
+    packName: process.env.PACK_NAME || 'WESLEY-AI',
     description: process.env.DESCRIPTION || 'High performance multi-device WhatsApp bot',
     version: '6.0.0',
     // Bot Config
-    prefixes: _prefixes,
-    prefix: _prefixes[0],
+    prefixes: prefixes,
+    prefix: prefixes[0],
     commandMode: process.env.COMMAND_MODE || 'public',
     timeZone: process.env.TIMEZONE || 'Africa/Nairobi',
    // links
     updateZipUrl: process.env.UPDATE_URL || 'https://github.com/GlobalTechInfo/MEGA-MD/archive/refs/heads/main.zip',
-    ytChannel: process.env.YT_CHANNEL || 'GlobalTechInfo',
+    ytChannel: process.env.YT_CHANNEL || 'Wesley',
     // Session
     sessionId: process.env.SESSION_ID || '',
     pairingNumber: process.env.PAIRING_NUMBER || '',
