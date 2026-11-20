@@ -184,14 +184,14 @@ PAIRING_NUMBER=923001234567
 OWNER_NUMBER=923000000000        # No + sign
 
 # ── BOT IDENTITY ─────────────────────────────────────────────
-BOT_NAME=MEGA-MD-PRO
-BOT_OWNER=GlobalTechInfo
-PACKNAME=MEGA-MD
+BOT_NAME=WESLEY-AI
+BOT_OWNER=Wesley
+PACKNAME=WESLEY-AI
 
 # ── BEHAVIOUR ────────────────────────────────────────────────
-PREFIXES=.,!,/                   # Comma-separated
+     PREFIXES=.              # Comma-separated
 COMMAND_MODE=public              # public or private
-TIMEZONE=Asia/Karachi
+TIMEZONE=Africa/Nairobi
 
 # ── OPTIONAL API KEYS ────────────────────────────────────────
 REMOVEBG_KEY=                    # https://remove.bg/api
@@ -216,8 +216,8 @@ DB_URL=                          # SQLite: ./data/baileys.db
 
 ```bash
 # 1. Clone
-git clone https://github.com/GlobalTechInfo/MEGA-MD.git
-cd MEGA-MD
+git clone https://github.com/GlobalTechInfo/WESLEY-AI.git
+cd WESLEY-AI
 
 # 2. Install dependencies
 npm install
@@ -233,15 +233,15 @@ npm start
 ### One-Line VPS Installer
 
 ```bash
-sudo bash <(curl -fsSL https://raw.githubusercontent.com/GlobalTechInfo/MEGA-MD/main/lib/install.sh)
+sudo bash -c "$(curl -fsSL https://raw.githubusercontent.com/GlobalTechInfo/WESLEY-AI/main/lib/install.sh)"
 ```
 > [!IMPORTANT]
 > This automatically installs Node.js 20, ffmpeg, libvips, libwebp, PM2, clones the repo, builds it, and sets up data files.
 
 ```bash
 # After install:
-nano /root/MEGA-MD/.env
-cd /root/MEGA-MD && pm2 start dist/index.js --name mega-md
+nano /root/WESLEY-AI/.env
+cd /root/WESLEY-AI && pm2 start dist/index.js --name wesley-ai
 pm2 save && pm2 startup
 ```
 
