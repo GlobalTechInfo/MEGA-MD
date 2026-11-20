@@ -1,8 +1,8 @@
 import 'dotenv/config';
-const _prefixes = process.env.PREFIXES ? process.env.PREFIXES.split(',') : ['.', '!', '/', '#'];
+const prefixes = process.env.PREFIXES ? process.env.PREFIXES.split(',') : ['.'];
 const config = {
     // Bot Identity
-    botName: process.env.BOT_NAME || 'MEGA-MD',
+    botName: process.env.BOT_NAME || 'WESLEY-AI',
     botOwner: process.env.BOT_OWNER || 'Wesley',
     ownerNumber: process.env.OWNER_NUMBER || '254738550932',
     author: process.env.AUTHOR || 'GlobalTechInfo',
