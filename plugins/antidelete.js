@@ -218,7 +218,7 @@ export async function handleMessageRevocation(sock, revocationMessage) {
         const senderName = sender.split('@')[0];
         const groupName = original.group ? (await sock.groupMetadata(original.group)).subject : '';
         const time = new Date().toLocaleString('en-US', {
-            timeZone: process.env.TIMEZONE || 'Asia/Karachi',
+            timeZone: process.env.TIME_ZONE || 'Africa/Nairobi',
             hour12: true, hour: '2-digit', minute: '2-digit', second: '2-digit',
             day: '2-digit', month: '2-digit', year: 'numeric'
         });
