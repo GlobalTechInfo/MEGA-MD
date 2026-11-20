@@ -132,7 +132,7 @@ export async function handleChatbotResponse(sock, chatId, message, userMessage, 
         else if (message.message?.conversation) {
             isBotMentioned = userMessage.includes(`@${botNumber}`);
         }
-        if (!isPrivate && !isBotMentioned && !isReplyToBot)
+        if (!isPrivate && !isBotMentioned && !isReplyToBot) {
             return;
         let cleanedMessage = userMessage;
         if (isBotMentioned) {
