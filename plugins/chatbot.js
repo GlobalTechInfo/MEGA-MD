@@ -109,6 +109,7 @@ export async function handleChatbotResponse(sock, chatId, message, userMessage, 
             `${botLid.split(':')[0]}@lid`
         ];
         let isBotMentioned = false;
+        const isPrivate = chatId.endsWith('@s.whatsapp.net');
         let isReplyToBot = false;
         if (message.message?.extendedTextMessage) {
             const mentionedJid = message.message.extendedTextMessage.contextInfo?.mentionedJid || [];
@@ -131,7 +132,7 @@ export async function handleChatbotResponse(sock, chatId, message, userMessage, 
         else if (message.message?.conversation) {
             isBotMentioned = userMessage.includes(`@${botNumber}`);
         }
-        if (!isBotMentioned && !isReplyToBot)
+        if (!isPrivate && !isBotMentioned && !isReplyToBot)
             return;
         let cleanedMessage = userMessage;
         if (isBotMentioned) {
@@ -272,8 +273,8 @@ export default {
     category: 'admin',
     description: 'Enable or disable AI chatbot for the group',
     usage: '.chatbot <on|off>',
-    groupOnly: true,
-    adminOnly: true,
+    groupOnly: false,
+    adminOnly: false,
     async handler(sock, message, args, context) {
         const chatId = context.chatId || message.key.remoteJid;
         const match = args.join(' ').toLowerCase();
