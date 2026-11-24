@@ -35,13 +35,15 @@ export default {
                     text: '❌ RemoveBG API key not configured.'
                 }, { quoted: message });
             }
+            // Any API that accepts remove.bg's requests works; remove.bg ends its self-serve API on 1 December 2026.
+            const apiUrl = process.env.REMOVEBG_API_URL || 'https://api.remove.bg/v1.0/removebg';
             const form = new FormData();
             form.append('size', 'auto');
             form.append('image_file', imageBuffer, {
                 filename: 'image.jpg',
                 contentType: 'image/jpeg'
             });
-            const response = await axios.post('https://api.remove.bg/v1.0/removebg', form, {
+            const response = await axios.post(apiUrl, form, {
                 headers: { ...form.getHeaders(), 'X-Api-Key': apiKey },
                 responseType: 'arraybuffer',
                 timeout: 60000
