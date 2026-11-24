@@ -574,7 +574,7 @@ DB_URL=./data/baileys.db
 | `PORT` | ❌ | `5000` | HTTP server port |
 | `MAX_STORE_MESSAGES` | ❌ | `20` | Messages stored per chat |
 | `REMOVEBG_KEY` | ❌ | — | [remove.bg](https://remove.bg) API key |
-| `REMOVEBG_API_URL` | ❌ | `https://api.remove.bg/v1.0/removebg` | Endpoint for `.removebg`; any API that accepts the same requests |
+| `REMOVEBG_API_URL` | ❌ | `https://api.remove.bg/v1.0/removebg` | Endpoint for `.removebg`: any API that accepts remove.bg's requests and returns the image as binary data. Put that service's key in `REMOVEBG_KEY` |
 | `GIPHY_API_KEY` | ❌ | — | [Giphy](https://developers.giphy.com) API key |
 | `MONGO_URL` | ❌ | — | MongoDB connection string |
 | `POSTGRES_URL` | ❌ | — | PostgreSQL connection string |
